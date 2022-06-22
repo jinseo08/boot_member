@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.GeneratedValue;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/member")
@@ -32,6 +33,18 @@ public class MemberController {
     @GetMapping("/login-form")
     public String loginForm(){
         return "memberPages/login";
+    }
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute MemberDTO memberDTO, HttpSession session){
+        MemberDTO loginDTO = memberService.login(memberDTO);
+        if(loginDTO != null){
+            session.setAttribute("loginEmail",loginDTO.getMemberEmail());
+            session.setAttribute("id",loginDTO.getId());
+            return "memberPages/main";
+        }else {
+            return "memberPages/login";
+        }
     }
 
 

@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class MemberEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    // id는 @Column 생략가능
     private Long id;
 
     @Column(name = "memberEmail",length = 50,unique = true)
@@ -39,5 +39,12 @@ public class MemberEntity {
         memberEntity.setMemberAge(memberDTO.getMemberAge());
         memberEntity.setMemberPhone(memberDTO.getMemberPhone());
         return memberEntity;
+    }
+
+    public static MemberEntity login(MemberDTO memberDTO) {
+        MemberEntity loginEntity = new MemberEntity();
+        loginEntity.setMemberEmail(memberDTO.getMemberEmail());
+        loginEntity.setMemberPassword(memberDTO.getMemberPassword());
+        return loginEntity;
     }
 }
