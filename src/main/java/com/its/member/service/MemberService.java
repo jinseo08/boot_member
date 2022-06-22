@@ -6,6 +6,8 @@ import com.its.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,9 +16,10 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public void save(MemberDTO memberDTO) {
+    public Long save(MemberDTO memberDTO) {
         MemberEntity memberEntity = MemberEntity.save(memberDTO);
-        memberRepository.save(memberEntity);
+        Long id = memberRepository.save(memberEntity).getId();
+        return id;
     }
 
     public MemberDTO login(MemberDTO memberDTO) {
@@ -55,5 +58,30 @@ public class MemberService {
 //            return false;
 //        }
 //    }
+
+
+    public MemberDTO findById(Long id) {
+        Optional<MemberEntity>optionalMemberEntity=memberRepository.findById(id);
+        if(optionalMemberEntity.isPresent()){
+//            MemberEntity memberEntity=optionalMemberEntity.get();
+//            MemberDTO memberDTO=MemberDTO.toDTO(memberEntity);
+//            return memberDTO;
+            return MemberDTO.toDTO(optionalMemberEntity.get());
+        }else{
+            return null;
+        }
+    }
+
+    public List<MemberDTO> findAll() {
+        List<MemberEntity> memberEntityList = memberRepository.findAll();
+        List<MemberDTO> memberDTOList = new ArrayList<>();
+        for(MemberEntity memberEntity : memberEntityList){
+            MemberDTO memberDTO = MemberDTO.toDTO(memberEntity);
+            memberDTOList.add(memberDTO);
+        }
+        return memberDTOList;
+    }
+
+
 
 }

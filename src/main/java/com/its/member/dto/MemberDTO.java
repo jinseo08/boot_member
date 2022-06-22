@@ -28,4 +28,15 @@ public class MemberDTO {
         memberDTO.setMemberPhone(memberEntity.getMemberPhone());
         return memberDTO;
     }
+
+
+    public MemberDTO (String memberEmail,String memberPassword,String memberName, int memberAge,String memberPhone){
+        this.memberEmail = memberEmail;
+        this.memberPassword = memberPassword;
+        this.memberName = memberName;
+        this.memberAge = memberAge;
+        this.memberPhone = memberPhone;
+    }
+
+
 }
